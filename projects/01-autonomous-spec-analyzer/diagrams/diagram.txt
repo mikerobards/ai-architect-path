@@ -1,0 +1,1 @@
+Critical. You need to include an architecture diagram here. You can draw this on a whiteboard and take a photo, or use a tool like Mermaid.js or Lucidchart. It should show: User -> LangGraph -> Gemini -> Azure -> File System.

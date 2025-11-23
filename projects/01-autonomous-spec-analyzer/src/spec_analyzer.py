@@ -113,7 +113,7 @@ def draft_tickets_node(state: AgentState):
     return {"ado_tickets": response.content}
 
 
-def export_to_ado_csv(tickets_json: str, output_file: str = "ado_work_items.csv"):
+def export_to_ado_csv(tickets_json: str, output_file: str = "artifacts/ado_work_items.csv"):
     """
     Exports the JSON tickets to a CSV file compatible with Azure DevOps import.
 
@@ -125,6 +125,8 @@ def export_to_ado_csv(tickets_json: str, output_file: str = "ado_work_items.csv"
         Path to the created CSV file
     """
     try:
+        # Ensure the artifacts directory exists
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         # Clean up the JSON string (remove markdown code blocks if present)
         cleaned_json = tickets_json.strip()
         if cleaned_json.startswith("```json"):
@@ -169,7 +171,8 @@ def export_to_ado_csv(tickets_json: str, output_file: str = "ado_work_items.csv"
         print(f"\n✗ Error parsing JSON: {e}")
         print(f"Response content:\n{tickets_json}")
         # Fallback: Save the raw output to a text file
-        fallback_file = "ado_work_items_raw.txt"
+        fallback_file = "artifacts/ado_work_items_raw.txt"
+        os.makedirs(os.path.dirname(fallback_file), exist_ok=True)
         with open(fallback_file, 'w', encoding='utf-8') as f:
             f.write(tickets_json)
         print(f"Saved raw output to: {fallback_file}")
